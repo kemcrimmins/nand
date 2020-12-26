@@ -17,4 +17,34 @@ CHIP DMux8Way {
 
     PARTS:
     // Put your code here:
+    // Set negative bits
+    Not(in=sel[0], out=notSel0);
+    Not(in=sel[1], out=notSel1);
+    Not(in=sel[2], out=notSel2);
+
+    // Construct selectors
+    And(a=notSel0, b=notSel1, out=notSel01);
+    And(a=sel[0], b=notSel1, out=sel0);
+    And(a=sel[0], b=sel[1], out=sel01);
+    And(a=notSel0, b=sel[1], out=sel1);
+
+    // select for input
+    And(a=notSel01, b=notSel2, out=selecta);
+    And(a=notSel01, b=sel[2], out=selecte);
+    And(a=sel0, b=notSel2, out=selectb);
+    And(a=sel0, b=sel[2], out=selectf);
+    And(a=sel01, b=notSel2, out=selectd);
+    And(a=sel01, b=sel[2], out=selecth);
+    And(a=sel1, b=notSel2, out=selectc);
+    And(a=sel1, b=sel[2], out=selectg);
+
+    // assign input
+    And(a=in, b=selecta, out=a);
+    And(a=in, b=selectb, out=b);
+    And(a=in, b=selectc, out=c);
+    And(a=in, b=selectd, out=d);
+    And(a=in, b=selecte, out=e);
+    And(a=in, b=selectf, out=f);
+    And(a=in, b=selectg, out=g);
+    And(a=in, b=selecth, out=h);
 }
