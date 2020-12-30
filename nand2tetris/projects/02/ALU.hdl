@@ -43,4 +43,23 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
+   // pre-set x input
+   Mux16(a=x, b[0..15]=false, sel=zx, out=zxResult); // zx pre-set
+   Mux16(a=zxResult, b=notZxResult, sel=nx, out=nxResult); // nx pre-set 
+   Not16(in=zxResult, out=notZxResult);
+
+   // pre-set y input
+   Mux16(a=y, b[0..15]=false, sel=zy, out=zyResult);  // zy pre-set
+   Mux16(a=zyResult, b=notZyResult, sel=ny, out=nyResult); // ny pre-set
+   Not16(in=zyResult, out=notZyResult);
+
+   // f: 1 -> x+y, 0 -> x&y
+   Mux16(a=xAndY, b=xPlusY, sel=f, out=fResult);
+   And16(a=nxResult, b=nyResult, out=xAndY);
+   Add16(a=nxResult, b=nyResult, out=xPlusY);
+
+   // post-setting output
+   Mux16(a=fResult, b=notfResult, sel=no, out=out);
+   Not16(in=fResult, out=notfResult);
+
 }
