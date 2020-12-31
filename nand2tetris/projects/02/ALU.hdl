@@ -1,4 +1,5 @@
 // This file is part of www.nand2tetris.org
+
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/02/ALU.hdl
@@ -59,7 +60,17 @@ CHIP ALU {
    Add16(a=nxResult, b=nyResult, out=xPlusY);
 
    // post-setting output
-   Mux16(a=fResult, b=notfResult, sel=no, out=out);
+   Mux16(a=fResult, b=notfResult, sel=no, out=postOut); // set postOut for zr, ng output
    Not16(in=fResult, out=notfResult);
+   Or16(a=postOut, b=postOut, out=out);
 
-}
+   // ng output
+   Or16(a=postOut, b=postOut, out[15]=ng); // left-most bit is 1 for negative numbers
+
+   // zr output
+   Or16(a=postOut, b=postOut, out[0..7]=lowOut, out[8..15]=highOut); // split into two 8-bits
+   Or8Way(in=lowOut, out=lowOr);  // reduce 8-way bits to single bit
+   Or8Way(in=highOut, out=highOr);
+   Or(a=lowOr, b=highOr, out=zrOr); 
+   Not(in=zrOr, out=zr); // flip the zrOr bit to get zr output
+} 
