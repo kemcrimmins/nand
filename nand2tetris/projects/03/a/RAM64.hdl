@@ -20,7 +20,7 @@ CHIP RAM64 {
     DMux8Way(in=load, sel=address[0..2], a=load0, b=load1,
         c=load2, d=load3, e=load4, f=load5, g=load6, h=load7);
 
-    // Set RAM8 chips [0..8]
+    // Set RAM8 chips [0..7]
     RAM8(in=in, load=load0, address=address[3..5], out=out0);
     RAM8(in=in, load=load1, address=address[3..5], out=out1);
     RAM8(in=in, load=load2, address=address[3..5], out=out2);
