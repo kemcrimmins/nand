@@ -17,4 +17,19 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
+    
+    // Handle the load and reset control bits
+    Mux8Way16(
+            // a= no control bit set; no change
+            // b, d, f, h = reset bit asserted
+            // c, g = load bit asserted
+            // e = inc bit asserted
+            a=prevOut, b=false, c=in, d=false, e=incOut, f=false,g=in,h=false,sel[0]=reset,
+            sel[1]=load, sel[2]=inc, out=Mux8Way16Out);
+
+    // increment chip for the Mux8Way16
+    Inc16(in=prevOut, out=incOut);
+
+    // Register with load asserted to act as DFF16
+    Register(in=Mux8Way16Out, load=true, out=prevOut, out=out);
 }
