@@ -1,3 +1,4 @@
 /nand2tetris/tools/*
 *.zip
 *.DS_Store
+*.hack
