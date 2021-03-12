@@ -54,7 +54,7 @@
     @KBD
     D=A
     @n
-    M=D-1        // n = last address of screen memory map
+    M=D        // n = last address of screen memory map
 
     @i
     M=0       // initialize incrementer
